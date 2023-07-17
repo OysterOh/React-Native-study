@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Button, TextInput, View, StyleSheet } from "react-native";
+import {
+  Button,
+  TextInput,
+  View,
+  StyleSheet,
+  Modal,
+  Image,
+} from "react-native";
 
 const GoalInput = (props) => {
   const [enteredGoalText, setEnteredGoalText] = useState("");
@@ -17,15 +24,25 @@ const GoalInput = (props) => {
   }
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.textInput}
-        placeholder="할 일을 입력하세요!"
-        onChangeText={goalInputHandler}
-        value={enteredGoalText}
-      />
-      <Button title="할 일 추가하기" onPress={addGoalHandler} />
-    </View>
+    <Modal visible={props.visible} animationType="slide">
+      <View style={styles.inputContainer}>
+        <Image source={require("../assets/goal.png")} style={styles.image} />
+        <TextInput
+          style={styles.textInput}
+          placeholder="할 일을 입력하세요!"
+          onChangeText={goalInputHandler}
+          value={enteredGoalText}
+        />
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button title="할 일 추가하기" onPress={addGoalHandler} />
+          </View>
+          <View style={styles.button}>
+            <Button title="취소" onPress={props.onCancel} />
+          </View>
+        </View>
+      </View>
+    </Modal>
   );
 };
 
@@ -33,10 +50,10 @@ export default GoalInput;
 const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
     marginBottom: 24,
+    padding: 16,
     borderBottomWidth: 2,
     borderBottomColor: "black",
     backgroundColor: "tomato",
@@ -44,8 +61,20 @@ const styles = StyleSheet.create({
   textInput: {
     borderWidth: 1,
     borderColor: "#cccccc",
-    width: "70%",
-    marginRight: 8,
+    width: "90%",
     padding: 8,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 20,
+  },
+  buttonContainer: {
+    marginTop: 16,
+    flexDirection: "row",
+  },
+  button: {
+    width: "30%",
+    marginHorizontal: 8,
   },
 });
